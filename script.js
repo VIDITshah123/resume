@@ -153,8 +153,97 @@ const showDesktopNotification = () => {
 
 // Add theme toggle with glass morphism
 const addThemeToggle = () => {
-    // Theme toggle implementation remains the same
-    // ...
+    const style = document.createElement('style');
+    style.id = 'light-theme';
+    style.textContent = `
+        body.light-theme {
+            --primary-color: #7b2cbf;
+            --secondary-color: #9d4edd;
+            --background-color: #f8f9fa;
+            --text-color: #343a40;
+            --light-gray: #e9ecef;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-blur: blur(12px);
+        }
+        
+        body.light-theme {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        body.light-theme .section,
+        body.light-theme header,
+        body.light-theme footer {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+        
+        body.light-theme .skill-category,
+        body.light-theme .project,
+        body.light-theme .strengths li {
+            background: rgba(123, 44, 191, 0.1);
+            border: 1px solid rgba(123, 44, 191, 0.2);
+        }
+        
+        body.light-theme .strengths li:hover {
+            background: rgba(123, 44, 191, 0.2);
+        }
+        
+        body.light-theme .strengths li:before {
+            color: #7b2cbf;
+        }
+        
+        @media (max-width: 768px) {
+            body.light-theme {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) no-repeat fixed;
+            }
+        }
+    `;
+    
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'theme-toggle';
+    toggleButton.innerHTML = '☀️';
+    toggleButton.title = 'Toggle Light Mode';
+    toggleButton.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--glass-bg);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border);
+        color: var(--text-color);
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    `;
+    
+    toggleButton.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        toggleButton.innerHTML = isLight ? '🌙' : '☀️';
+        toggleButton.title = isLight ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+        localStorage.setItem('lightTheme', isLight);
+    });
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('lightTheme') === 'true') {
+        document.body.classList.add('light-theme');
+        toggleButton.innerHTML = '🌙';
+        toggleButton.title = 'Toggle Dark Mode';
+    }
+    
+    document.head.appendChild(style);
+    document.body.appendChild(toggleButton);
 };
 
 // Initialize theme toggle and show desktop notification
@@ -176,15 +265,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Add desktop mode notification
-const showDesktopNotification = () => {
-    const notification = document.createElement('div');
-    notification.id = 'desktop-notification';
-    notification.innerHTML = `
-        <div class="notification-content">
-            <p>For the best experience, please view this site in desktop mode.</p>
-            <button id="close-notification" aria-label="Close notification">×</button>
-        </div>
-    `;
+// const showDesktopNotification = () => {
+//     const notification = document.createElement('div');
+//     notification.id = 'desktop-notification';
+//     notification.innerHTML = `
+//         <div class="notification-content">
+//             <p>For the best experience, please view this site in desktop mode.</p>
+//             <button id="close-notification" aria-label="Close notification">×</button>
+//         </div>
+//     `;
     
     // Add styles
     const style = document.createElement('style');
@@ -272,120 +361,5 @@ const showDesktopNotification = () => {
         }
     }, 10000);
 };
-
-// Add theme toggle with glass morphism
-const addThemeToggle = () => {
-    const style = document.createElement('style');
-    style.id = 'light-theme';
-    style.textContent = `
-        body.light-theme {
-            --primary-color: #7b2cbf;
-            --secondary-color: #9d4edd;
-            --background-color: #f8f9fa;
-            --text-color: #343a40;
-            --light-gray: #e9ecef;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --glass-blur: blur(12px);
-        }
-        
-        body.light-theme {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-        
-        body.light-theme .section,
-        body.light-theme header,
-        body.light-theme footer {
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-        }
-        
-        body.light-theme .skill-category,
-        body.light-theme .project,
-        body.light-theme .strengths li {
-            background: rgba(123, 44, 191, 0.1);
-            border: 1px solid rgba(123, 44, 191, 0.2);
-        }
-        
-        body.light-theme .strengths li:hover {
-            background: rgba(123, 44, 191, 0.2);
-        }
-        
-        body.light-theme .strengths li:before {
-            color: #7b2cbf;
-        }
-        
-        @media (max-width: 768px) {
-            body.light-theme {
-                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) no-repeat fixed;
-            }
-        }
-    `;
-    
-    const toggleButton = document.createElement('button');
-    toggleButton.id = 'theme-toggle';
-    toggleButton.innerHTML = '☀️';
-    toggleButton.title = 'Toggle Light Mode';
-    toggleButton.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        background: var(--glass-bg);
-        backdrop-filter: var(--glass-blur);
-        -webkit-backdrop-filter: var(--glass-blur);
-        border: 1px solid var(--glass-border);
-        color: var(--text-color);
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    `;
-    toggleButton.style.cssText = `
-        position: fixed;
-        bottom: 70px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        font-size: 1.2rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-    `;
-    
-    toggleButton.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        toggleButton.innerHTML = isLight ? '🌙' : '☀️';
-        toggleButton.title = isLight ? 'Toggle Dark Mode' : 'Toggle Light Mode';
-        localStorage.setItem('lightTheme', isLight);
-    });
-    
-    // Check for saved theme preference
-    if (localStorage.getItem('lightTheme') === 'true') {
-        document.body.classList.add('light-theme');
-        toggleButton.innerHTML = '🌙';
-        toggleButton.title = 'Toggle Dark Mode';
-    }
-    
-    document.head.appendChild(style);
-    document.body.appendChild(toggleButton);
-};
-
-// Initialize theme toggle
+// Initialize theme toggle 
 document.addEventListener('DOMContentLoaded', addThemeToggle);
