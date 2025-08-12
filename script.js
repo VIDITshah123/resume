@@ -49,7 +49,119 @@ const checkIfInView = () => {
 window.addEventListener('scroll', checkIfInView);
 window.addEventListener('load', checkIfInView);
 
+// Add desktop mode notification
+const showDesktopNotification = () => {
+    // Only show on mobile devices
+    if (window.innerWidth > 768) return;
+    
+    const notification = document.createElement('div');
+    notification.id = 'desktop-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <p>For the best experience, please view this site in desktop mode.</p>
+            <button id="close-notification" aria-label="Close notification">×</button>
+        </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+        #desktop-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(29, 6, 56, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(224, 170, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #fff;
+            font-size: 0.95rem;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.5s ease-out forwards;
+            max-width: 90%;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #close-notification {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 0 0 10px;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        #close-notification:hover {
+            opacity: 1;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translate(-50%, -10px);
+            }
+        }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(notification);
+    
+    // Add close functionality
+    const closeButton = document.getElementById('close-notification');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            notification.style.animation = 'fadeOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+    }
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        if (document.body.contains(notification)) {
+            notification.style.animation = 'fadeOut 0.5s ease-out forwards';
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }
+    }, 10000);
+};
 
+// Add theme toggle with glass morphism
+const addThemeToggle = () => {
+    // Theme toggle implementation remains the same
+    // ...
+};
+
+// Initialize theme toggle and show desktop notification
+document.addEventListener('DOMContentLoaded', () => {
+    addThemeToggle();
+    showDesktopNotification();
+    
     // Add animation class to header
     const header = document.querySelector('header');
     header.style.opacity = '0';
@@ -61,6 +173,105 @@ window.addEventListener('load', checkIfInView);
         header.style.opacity = '1';
         header.style.transform = 'translateY(0)';
     }, 100);
+});
+
+// Add desktop mode notification
+const showDesktopNotification = () => {
+    const notification = document.createElement('div');
+    notification.id = 'desktop-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <p>For the best experience, please view this site in desktop mode.</p>
+            <button id="close-notification" aria-label="Close notification">×</button>
+        </div>
+    `;
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+        #desktop-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(29, 6, 56, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(224, 170, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #fff;
+            font-size: 0.95rem;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: none;
+            animation: slideUp 0.5s ease-out forwards;
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #close-notification {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 0 0 10px;
+            line-height: 1;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        
+        #close-notification:hover {
+            opacity: 1;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            #desktop-notification {
+                display: block;
+            }
+        }
+    `;
+    
+    document.head.appendChild(style);
+    document.body.appendChild(notification);
+    
+    // Add close functionality
+    const closeButton = document.getElementById('close-notification');
+    if (closeButton) {
+        closeButton.addEventListener('click', () => {
+            notification.style.animation = 'fadeOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+    }
+    
+    // Auto-hide after 10 seconds
+    setTimeout(() => {
+        if (document.body.contains(notification)) {
+            notification.style.animation = 'fadeOut 0.5s ease-out forwards';
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }
+    }, 10000);
+};
 
 // Add theme toggle with glass morphism
 const addThemeToggle = () => {
