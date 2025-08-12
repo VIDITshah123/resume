@@ -61,45 +61,82 @@ window.addEventListener('load', checkIfInView);
         header.style.opacity = '1';
         header.style.transform = 'translateY(0)';
     }, 100);
-});
 
-// Add a simple theme toggle
+// Add theme toggle with glass morphism
 const addThemeToggle = () => {
     const style = document.createElement('style');
-    style.id = 'dark-theme';
+    style.id = 'light-theme';
     style.textContent = `
-        body.dark-theme {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --background-color: #1a1a2e;
-            --text-color: #e6e6e6;
-            --light-gray: #16213e;
+        body.light-theme {
+            --primary-color: #7b2cbf;
+            --secondary-color: #9d4edd;
+            --background-color: #f8f9fa;
+            --text-color: #343a40;
+            --light-gray: #e9ecef;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --glass-blur: blur(12px);
         }
         
-        body.dark-theme .section {
-            background-color: #0f3460;
-            color: #e6e6e6;
+        body.light-theme {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
         
-        body.dark-theme .education-item h3,
-        body.dark-theme .project h3,
-        body.dark-theme .skill-category h3 {
-            color: #e6e6e6;
+        body.light-theme .section,
+        body.light-theme header,
+        body.light-theme footer {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
         }
         
-        body.dark-theme .education-item p {
-            color: #b3b3b3;
+        body.light-theme .skill-category,
+        body.light-theme .project,
+        body.light-theme .strengths li {
+            background: rgba(123, 44, 191, 0.1);
+            border: 1px solid rgba(123, 44, 191, 0.2);
         }
         
-        body.dark-theme .skill-category {
-            background-color: #16213e;
+        body.light-theme .strengths li:hover {
+            background: rgba(123, 44, 191, 0.2);
+        }
+        
+        body.light-theme .strengths li:before {
+            color: #7b2cbf;
+        }
+        
+        @media (max-width: 768px) {
+            body.light-theme {
+                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) no-repeat fixed;
+            }
         }
     `;
     
     const toggleButton = document.createElement('button');
     toggleButton.id = 'theme-toggle';
-    toggleButton.innerHTML = '🌙';
-    toggleButton.title = 'Toggle Dark Mode';
+    toggleButton.innerHTML = '☀️';
+    toggleButton.title = 'Toggle Light Mode';
+    toggleButton.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: var(--glass-bg);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border);
+        color: var(--text-color);
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    `;
     toggleButton.style.cssText = `
         position: fixed;
         bottom: 70px;
@@ -121,16 +158,18 @@ const addThemeToggle = () => {
     `;
     
     toggleButton.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        const isDark = document.body.classList.contains('dark-theme');
-        toggleButton.innerHTML = isDark ? '☀️' : '🌙';
-        localStorage.setItem('darkTheme', isDark);
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        toggleButton.innerHTML = isLight ? '🌙' : '☀️';
+        toggleButton.title = isLight ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+        localStorage.setItem('lightTheme', isLight);
     });
     
     // Check for saved theme preference
-    if (localStorage.getItem('darkTheme') === 'true') {
-        document.body.classList.add('dark-theme');
-        toggleButton.innerHTML = '☀️';
+    if (localStorage.getItem('lightTheme') === 'true') {
+        document.body.classList.add('light-theme');
+        toggleButton.innerHTML = '🌙';
+        toggleButton.title = 'Toggle Dark Mode';
     }
     
     document.head.appendChild(style);
