@@ -227,24 +227,24 @@ const addThemeToggle = () => {
         transition: all 0.3s ease;
     `;
     
-    toggleButton.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        const isLight = document.body.classList.contains('light-theme');
-        toggleButton.innerHTML = isLight ? '🌙' : '☀️';
-        toggleButton.title = isLight ? 'Toggle Dark Mode' : 'Toggle Light Mode';
-        localStorage.setItem('lightTheme', isLight);
-    });
+//     toggleButton.addEventListener('click', () => {
+//         document.body.classList.toggle('light-theme');
+//         const isLight = document.body.classList.contains('light-theme');
+//         toggleButton.innerHTML = isLight ? '🌙' : '☀️';
+//         toggleButton.title = isLight ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+//         localStorage.setItem('lightTheme', isLight);
+//     });
     
-    // Check for saved theme preference
-    if (localStorage.getItem('lightTheme') === 'true') {
-        document.body.classList.add('light-theme');
-        toggleButton.innerHTML = '🌙';
-        toggleButton.title = 'Toggle Dark Mode';
-    }
+//     // Check for saved theme preference
+//     if (localStorage.getItem('lightTheme') === 'true') {
+//         document.body.classList.add('light-theme');
+//         toggleButton.innerHTML = '🌙';
+//         toggleButton.title = 'Toggle Dark Mode';
+//     }
     
-    document.head.appendChild(style);
-    document.body.appendChild(toggleButton);
-};
+//     document.head.appendChild(style);
+//     document.body.appendChild(toggleButton);
+// };
 
 // Initialize theme toggle and show desktop notification
 document.addEventListener('DOMContentLoaded', () => {
