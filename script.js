@@ -360,6 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 500);
         }
     }, 10000);
-};
+
 // Initialize theme toggle 
 document.addEventListener('DOMContentLoaded', addThemeToggle);
