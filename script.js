@@ -49,63 +49,7 @@ const checkIfInView = () => {
 window.addEventListener('scroll', checkIfInView);
 window.addEventListener('load', checkIfInView);
 
-// Add print functionality
-const addPrintButton = () => {
-    const header = document.querySelector('header');
-    const printButton = document.createElement('button');
-    printButton.textContent = 'Print Resume';
-    printButton.className = 'print-button';
-    printButton.onclick = () => window.print();
-    
-    // Add styles for the print button
-    const style = document.createElement('style');
-    style.textContent = `
-        .print-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .print-button:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        @media print {
-            .print-button {
-                display: none;
-            }
-            
-            body {
-                background-color: white;
-            }
-            
-            .section {
-                box-shadow: none;
-                border: 1px solid #eee;
-                page-break-inside: avoid;
-            }
-        }
-    `;
-    
-    document.head.appendChild(style);
-    document.body.appendChild(printButton);
-};
 
-// Initialize the print button when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    addPrintButton();
-    
     // Add animation class to header
     const header = document.querySelector('header');
     header.style.opacity = '0';
